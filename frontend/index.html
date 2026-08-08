@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Task Management</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css?v=2000"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- =========================================
+         HEADER
+    ========================================== -->
+
+    <header class="header">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                ✓
+            </div>
+
+            <div class="brand-text">
+
+                <h1>
+                    Task Management
+                </h1>
+
+                <p>
+                    Organize your work and stay productive.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="header-actions">
+
+
+            <!-- =================================
+                 PROFILE
+            ================================== -->
+
+            <div class="profile-wrapper">
+
+                <button
+                    id="profileBtn"
+                    class="profile-btn"
+                    type="button"
+                    aria-label="Open profile"
+                >
+
+                    <div
+                        id="userAvatar"
+                        class="user-avatar"
+                    >
+                        K
+                    </div>
+
+
+                    <div class="profile-summary">
+
+                        <span class="user-label">
+                            Welcome back
+                        </span>
+
+                        <strong id="userName">
+                            User
+                        </strong>
+
+                    </div>
+
+                </button>
+
+
+                <!-- PROFILE DROPDOWN -->
+
+                <div
+                    id="profileDropdown"
+                    class="profile-dropdown hidden"
+                >
+
+                    <div class="profile-dropdown-header">
+
+                        <div
+                            id="profileAvatar"
+                            class="profile-avatar-large"
+                        >
+                            K
+                        </div>
+
+
+                        <div class="profile-heading">
+
+                            <h3 id="profileName">
+                                User
+                            </h3>
+
+                            <p id="profileEmail">
+                                user@example.com
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="profile-divider"></div>
+
+
+                    <div class="profile-details">
+
+
+                        <div class="profile-detail">
+
+                            <span class="detail-icon">
+                                👤
+                            </span>
+
+                            <div>
+
+                                <small>
+                                    Name
+                                </small>
+
+                                <strong id="profileDetailName">
+                                    User
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="profile-detail">
+
+                            <span class="detail-icon">
+                                ✉
+                            </span>
+
+                            <div>
+
+                                <small>
+                                    Email
+                                </small>
+
+                                <strong id="profileDetailEmail">
+                                    user@example.com
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="profile-divider"></div>
+
+
+                    <button
+                        id="profileLogoutBtn"
+                        class="profile-logout"
+                        type="button"
+                    >
+
+                        <span>
+                            ↪
+                        </span>
+
+                        Logout
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 ADD TASK
+            ================================== -->
+
+            <button
+                id="addTaskBtn"
+                class="btn primary add-task-btn"
+                type="button"
+            >
+
+                <span class="plus-icon">
+                    +
+                </span>
+
+                Add Task
+
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================
+         MAIN
+    ========================================== -->
+
+    <main class="container">
+
+
+        <!-- =================================
+             DASHBOARD INTRO
+        ================================== -->
+
+        <section class="dashboard-heading">
+
+            <span class="eyebrow">
+                WORKSPACE
+            </span>
+
+            <h2>
+                Your Dashboard
+            </h2>
+
+            <p>
+                Manage your tasks, track progress, and stay organized.
+            </p>
+
+        </section>
+
+
+        <!-- =================================
+             STATISTICS
+        ================================== -->
+
+        <section class="stats">
+
+
+            <!-- TOTAL -->
+
+            <div class="stat-card total-card">
+
+                <div class="stat-content">
+
+                    <h3>
+                        Total Tasks
+                    </h3>
+
+                    <p id="totalTasks">
+                        0
+                    </p>
+
+                    <span>
+                        All tasks
+                    </span>
+
+                </div>
+
+                <div class="stat-icon">
+                    #
+                </div>
+
+            </div>
+
+
+            <!-- TODO -->
+
+            <div class="stat-card todo-card">
+
+                <div class="stat-content">
+
+                    <h3>
+                        To Do
+                    </h3>
+
+                    <p id="todoTasks">
+                        0
+                    </p>
+
+                    <span>
+                        Waiting to start
+                    </span>
+
+                </div>
+
+                <div class="stat-icon">
+                    ○
+                </div>
+
+            </div>
+
+
+            <!-- PROGRESS -->
+
+            <div class="stat-card progress-card">
+
+                <div class="stat-content">
+
+                    <h3>
+                        In Progress
+                    </h3>
+
+                    <p id="progressTasks">
+                        0
+                    </p>
+
+                    <span>
+                        Currently working
+                    </span>
+
+                </div>
+
+                <div class="stat-icon">
+                    ◐
+                </div>
+
+            </div>
+
+
+            <!-- COMPLETED -->
+
+            <div class="stat-card completed-card">
+
+                <div class="stat-content">
+
+                    <h3>
+                        Completed
+                    </h3>
+
+                    <p id="completedTasks">
+                        0
+                    </p>
+
+                    <span>
+                        Finished tasks
+                    </span>
+
+                </div>
+
+                <div class="stat-icon">
+                    ✓
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================
+             FILTERS
+        ================================== -->
+
+        <section class="filters">
+
+
+            <!-- SEARCH -->
+
+            <div class="search-wrapper">
+
+                <span class="search-icon">
+                    ⌕
+                </span>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search tasks..."
+                >
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="filter-group">
+
+                <label for="statusFilter">
+                    Status
+                </label>
+
+                <select id="statusFilter">
+
+                    <option value="all">
+                        All Status
+                    </option>
+
+                    <option value="To Do">
+                        To Do
+                    </option>
+
+                    <option value="In Progress">
+                        In Progress
+                    </option>
+
+                    <option value="Completed">
+                        Completed
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- PRIORITY -->
+
+            <div class="filter-group">
+
+                <label for="priorityFilter">
+                    Priority
+                </label>
+
+                <select id="priorityFilter">
+
+                    <option value="all">
+                        All Priority
+                    </option>
+
+                    <option value="Low">
+                        Low
+                    </option>
+
+                    <option value="Medium">
+                        Medium
+                    </option>
+
+                    <option value="High">
+                        High
+                    </option>
+
+                </select>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================
+             TASKS
+        ================================== -->
+
+        <section class="tasks-section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <span class="eyebrow">
+                        WORK ITEMS
+                    </span>
+
+                    <h2>
+                        My Tasks
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="taskContainer"
+                class="task-container"
+            >
+
+                <!-- Tasks generated by JavaScript -->
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================
+         ADD / EDIT TASK MODAL
+    ========================================== -->
+
+    <div
+        id="taskModal"
+        class="modal hidden"
+    >
+
+        <div class="modal-content">
+
+
+            <!-- MODAL HEADER -->
+
+            <div class="modal-header">
+
+                <div>
+
+                    <span class="eyebrow">
+                        TASK
+                    </span>
+
+                    <h2 id="modalTitle">
+                        Add Task
+                    </h2>
+
+                </div>
+
+
+                <button
+                    id="closeModalBtn"
+                    class="close-btn"
+                    type="button"
+                    aria-label="Close"
+                >
+                    &times;
+                </button>
+
+            </div>
+
+
+            <!-- FORM -->
+
+            <form id="taskForm">
+
+                <input
+                    type="hidden"
+                    id="taskId"
+                >
+
+
+                <label for="title">
+                    Task Title
+                </label>
+
+                <input
+                    type="text"
+                    id="title"
+                    placeholder="Enter task title"
+                    required
+                >
+
+
+                <label for="description">
+                    Description
+                </label>
+
+                <textarea
+                    id="description"
+                    placeholder="Enter task description"
+                    rows="4"
+                ></textarea>
+
+
+                <label for="status">
+                    Status
+                </label>
+
+                <select id="status">
+
+                    <option value="To Do">
+                        To Do
+                    </option>
+
+                    <option value="In Progress">
+                        In Progress
+                    </option>
+
+                    <option value="Completed">
+                        Completed
+                    </option>
+
+                </select>
+
+
+                <label for="priority">
+                    Priority
+                </label>
+
+                <select id="priority">
+
+                    <option value="Low">
+                        Low
+                    </option>
+
+                    <option
+                        value="Medium"
+                        selected
+                    >
+                        Medium
+                    </option>
+
+                    <option value="High">
+                        High
+                    </option>
+
+                </select>
+
+
+                <label for="dueDate">
+                    Due Date
+                </label>
+
+                <input
+                    type="date"
+                    id="dueDate"
+                >
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        id="cancelBtn"
+                        class="btn secondary"
+                    >
+                        Cancel
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="btn primary"
+                    >
+                        Save Task
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script src="script.js?v=2000"></script>
+
+</body>
+
+</html>
