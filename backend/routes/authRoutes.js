@@ -1,6 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 const User = require("../models/User");
 
@@ -49,7 +50,9 @@ router.post("/signup", async (req, res) => {
         // Check existing user
 
         const existingUser =
-            await User.findOne({ email });
+            await User.findOne({
+                email: email.toLowerCase().trim()
+            });
 
 
         if (existingUser) {
@@ -75,9 +78,11 @@ router.post("/signup", async (req, res) => {
 
                 name,
 
-                email,
+                email:
+                    email.toLowerCase().trim(),
 
-                password: hashedPassword
+                password:
+                    hashedPassword
             });
 
 
@@ -132,7 +137,8 @@ router.post("/signup", async (req, res) => {
             message:
                 "Failed to create account",
 
-            error: error.message
+            error:
+                error.message
         });
     }
 });
@@ -171,7 +177,10 @@ router.post("/login", async (req, res) => {
 
         const user =
             await User.findOne({
-                email
+
+                email:
+                    email.toLowerCase().trim()
+
             });
 
 
@@ -261,10 +270,284 @@ router.post("/login", async (req, res) => {
             message:
                 "Failed to login",
 
-            error: error.message
+            error:
+                error.message
         });
     }
 });
+
+
+
+// =================================
+// FORGOT PASSWORD
+// =================================
+
+router.post(
+    "/forgot-password",
+    async (req, res) => {
+
+        try {
+
+            const { email } =
+                req.body;
+
+
+            // Validate email
+
+            if (!email) {
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "Email is required"
+                });
+            }
+
+
+            // Find user
+
+            const user =
+                await User.findOne({
+
+                    email:
+                        email.toLowerCase().trim()
+
+                });
+
+
+            // Don't reveal whether
+            // account exists
+
+            if (!user) {
+
+                return res.status(200).json({
+
+                    success: true,
+
+                    message:
+                        "If an account exists with this email, a password reset link has been generated."
+                });
+            }
+
+
+            // Generate secure token
+
+            const resetToken =
+                crypto
+                    .randomBytes(32)
+                    .toString("hex");
+
+
+            // Save token
+
+            user.resetPasswordToken =
+                resetToken;
+
+
+            // Token expires
+            // after 15 minutes
+
+            user.resetPasswordExpires =
+                new Date(
+                    Date.now() +
+                    15 * 60 * 1000
+                );
+
+
+            await user.save();
+
+
+            // Temporary development
+            // reset link
+
+            const resetLink =
+                `https://task-management-frontend-nnrr.onrender.com/reset-password.html?token=${resetToken}`;
+
+
+            console.log(
+                "================================="
+            );
+
+            console.log(
+                "PASSWORD RESET LINK:"
+            );
+
+            console.log(
+                resetLink
+            );
+
+            console.log(
+                "================================="
+            );
+
+
+            return res.status(200).json({
+
+                success: true,
+
+                message:
+                    "If an account exists with this email, a password reset link has been generated.",
+
+                resetLink
+            });
+
+
+        } catch (error) {
+
+            console.error(
+                "Forgot password error:",
+                error
+            );
+
+
+            res.status(500).json({
+
+                success: false,
+
+                message:
+                    "Unable to process password reset request"
+            });
+        }
+    }
+);
+
+
+
+// =================================
+// RESET PASSWORD
+// =================================
+
+router.post(
+    "/reset-password/:token",
+    async (req, res) => {
+
+        try {
+
+            const {
+                token
+            } = req.params;
+
+
+            const {
+                password
+            } = req.body;
+
+
+            // Validate password
+
+            if (!password) {
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "New password is required"
+                });
+            }
+
+
+            // Validate password length
+
+            if (password.length < 6) {
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "Password must be at least 6 characters"
+                });
+            }
+
+
+            // Find user with valid
+            // and non-expired token
+
+            const user =
+                await User.findOne({
+
+                    resetPasswordToken:
+                        token,
+
+                    resetPasswordExpires: {
+                        $gt: new Date()
+                    }
+
+                });
+
+
+            // Invalid / expired token
+
+            if (!user) {
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "Invalid or expired password reset token"
+                });
+            }
+
+
+            // Hash new password
+
+            const hashedPassword =
+                await bcrypt.hash(
+                    password,
+                    10
+                );
+
+
+            // Update password
+
+            user.password =
+                hashedPassword;
+
+
+            // Remove reset token
+
+            user.resetPasswordToken =
+                null;
+
+
+            user.resetPasswordExpires =
+                null;
+
+
+            await user.save();
+
+
+            return res.status(200).json({
+
+                success: true,
+
+                message:
+                    "Password reset successfully. You can now login with your new password."
+            });
+
+
+        } catch (error) {
+
+            console.error(
+                "Reset password error:",
+                error
+            );
+
+
+            res.status(500).json({
+
+                success: false,
+
+                message:
+                    "Unable to reset password"
+            });
+        }
+    }
+);
 
 
 
