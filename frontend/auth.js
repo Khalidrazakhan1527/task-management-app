@@ -133,3 +133,113 @@ if (loginForm) {
         }
     );
 }
+
+// =================================
+// SIGNUP
+// =================================
+
+const signupForm =
+    document.getElementById("signupForm");
+
+if (signupForm) {
+
+    signupForm.addEventListener(
+        "submit",
+        async (event) => {
+
+            event.preventDefault();
+
+            const name =
+                document.getElementById("signupName").value.trim();
+
+            const email =
+                document.getElementById("signupEmail").value.trim();
+
+            const password =
+                document.getElementById("signupPassword").value;
+
+            const message =
+                document.getElementById("signupMessage");
+
+            try {
+
+                message.textContent =
+                    "Creating account...";
+
+                message.className =
+                    "auth-message";
+
+                const response =
+                    await fetch(
+                        `${AUTH_API_URL}/signup`,
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                name,
+                                email,
+                                password
+                            })
+                        }
+                    );
+
+                const data =
+                    await response.json();
+
+                if (!response.ok) {
+
+                    message.textContent =
+                        data.message ||
+                        "Signup failed.";
+
+                    message.className =
+                        "auth-message error";
+
+                    return;
+                }
+
+                localStorage.setItem(
+                    "token",
+                    data.token
+                );
+
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify(data.user)
+                );
+
+                message.textContent =
+                    "Account created successfully!";
+
+                message.className =
+                    "auth-message success";
+
+                setTimeout(() => {
+
+                    window.location.href =
+                        "index.html";
+
+                }, 500);
+
+            } catch (error) {
+
+                console.error(
+                    "SIGNUP ERROR:",
+                    error
+                );
+
+                message.textContent =
+                    error.message ||
+                    "Signup request failed.";
+
+                message.className =
+                    "auth-message error";
+            }
+        }
+    );
+}
