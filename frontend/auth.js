@@ -1,3 +1,4 @@
+console.log("AUTH.JS LOADED");
 const AUTH_API_URL =
     "https://task-management-app-oj6o.onrender.com/api/auth";
 
