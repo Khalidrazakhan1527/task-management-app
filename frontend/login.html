@@ -14,71 +14,83 @@
 
     <link
         rel="stylesheet"
-        href="style.css?v=1001"
+        href="style.css"
     >
 
 </head>
 
-<body class="auth-page">
 
-    <main class="auth-container">
+<body>
+
+    <main class="auth-page">
 
         <div class="auth-card">
 
-            <div class="auth-brand">
-
-                <div class="brand-icon">
-                    ✓
-                </div>
-
-                <div>
-                    <h1>Task Management</h1>
-                    <p>Stay organized. Get things done.</p>
-                </div>
-
-            </div>
-
+            <!-- ============================= -->
+            <!-- HEADER -->
+            <!-- ============================= -->
 
             <div class="auth-header">
 
-                <span class="eyebrow">
-                    WELCOME BACK
-                </span>
+                <div class="auth-brand">
 
-                <h2>
-                    Sign in to your account
-                </h2>
+                    <div class="auth-logo">
+                        ✓
+                    </div>
 
-                <p>
-                    Enter your details to continue.
-                </p>
+                    <div>
+
+                        <h1>
+                            Task Management
+                        </h1>
+
+                        <p>
+                            Stay organized. Get things done.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="auth-welcome">
+
+                    <span>
+                        WELCOME BACK
+                    </span>
+
+                    <h2>
+                        Sign in to your account
+                    </h2>
+
+                    <p>
+                        Enter your details to continue.
+                    </p>
+
+                </div>
 
             </div>
 
 
-            <form id="loginForm">
+            <!-- ============================= -->
+            <!-- LOGIN FORM -->
+            <!-- ============================= -->
+
+            <form
+                id="loginForm"
+                class="auth-form"
+            >
 
                 <label for="loginEmail">
                     Email
                 </label>
 
-                    type="password"
-    id="loginPassword"
-    placeholder="Enter your password"
-    required
-><input
+                <input
                     type="email"
                     id="loginEmail"
                     placeholder="you@example.com"
                     required
                 >
-<div class="forgot-password-link">
-
-    <a href="forgot-password.html">
-        Forgot Password?
-    </a>
-
-</div>
 
 
                 <label for="loginPassword">
@@ -93,6 +105,19 @@
                 >
 
 
+                <!-- FORGOT PASSWORD -->
+
+                <div class="forgot-password-link">
+
+                    <a href="forgot-password.html">
+                        Forgot Password?
+                    </a>
+
+                </div>
+
+
+                <!-- LOGIN BUTTON -->
+
                 <button
                     type="submit"
                     class="btn primary auth-submit"
@@ -103,11 +128,17 @@
             </form>
 
 
+            <!-- LOGIN MESSAGE -->
+
             <p
                 id="loginMessage"
                 class="auth-message"
             ></p>
 
+
+            <!-- ============================= -->
+            <!-- SIGNUP LINK -->
+            <!-- ============================= -->
 
             <div class="auth-switch">
 
@@ -126,7 +157,9 @@
     </main>
 
 
-    <script src="auth.js?v=1001"></script>
+    <!-- AUTH JAVASCRIPT -->
+
+    <script src="auth.js?v=1005"></script>
 
 </body>
 
