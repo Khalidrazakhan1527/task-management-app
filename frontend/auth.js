@@ -1,5 +1,5 @@
 const AUTH_API_URL =
-    "http://localhost:5001/api/auth";
+    "https://task-management-app-oj6o.onrender.com/api/auth";
 
 
 // =================================
@@ -27,7 +27,6 @@ if (loginForm) {
                 document.getElementById(
                     "loginPassword"
                 ).value;
-
 
             const message =
                 document.getElementById(
@@ -118,152 +117,14 @@ if (loginForm) {
             } catch (error) {
 
                 console.error(
-                    "Login error:",
+                    "LOGIN ERROR:",
                     error
                 );
 
 
                 message.textContent =
-                    "Unable to connect to server.";
-
-                message.className =
-                    "auth-message error";
-            }
-        }
-    );
-}
-
-
-// =================================
-// SIGNUP
-// =================================
-
-const signupForm =
-    document.getElementById("signupForm");
-
-
-if (signupForm) {
-
-    signupForm.addEventListener(
-        "submit",
-        async (event) => {
-
-            event.preventDefault();
-
-
-            const name =
-                document.getElementById(
-                    "signupName"
-                ).value.trim();
-
-
-            const email =
-                document.getElementById(
-                    "signupEmail"
-                ).value.trim();
-
-
-            const password =
-                document.getElementById(
-                    "signupPassword"
-                ).value;
-
-
-            const message =
-                document.getElementById(
-                    "signupMessage"
-                );
-
-
-            try {
-
-                message.textContent =
-                    "Creating account...";
-
-                message.className =
-                    "auth-message";
-
-
-                const response =
-                    await fetch(
-                        `${AUTH_API_URL}/signup`,
-                        {
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
-
-                            body: JSON.stringify({
-                                name,
-                                email,
-                                password
-                            })
-                        }
-                    );
-
-
-                const data =
-                    await response.json();
-
-
-                if (!response.ok) {
-
-                    message.textContent =
-                        data.message ||
-                        "Signup failed.";
-
-                    message.className =
-                        "auth-message error";
-
-                    return;
-                }
-
-
-                // Save JWT
-
-                localStorage.setItem(
-                    "token",
-                    data.token
-                );
-
-
-                // Save user
-
-                localStorage.setItem(
-                    "user",
-                    JSON.stringify(
-                        data.user
-                    )
-                );
-
-
-                message.textContent =
-                    "Account created successfully!";
-
-                message.className =
-                    "auth-message success";
-
-
-                setTimeout(() => {
-
-                    window.location.href =
-                        "index.html";
-
-                }, 500);
-
-
-            } catch (error) {
-
-                console.error(
-                    "Signup error:",
-                    error
-                );
-
-
-                message.textContent =
-                    "Unable to connect to server.";
+                    error.message ||
+                    "Login request failed.";
 
                 message.className =
                     "auth-message error";

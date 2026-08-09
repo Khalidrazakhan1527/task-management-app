@@ -8,8 +8,7 @@
 // =========================================
 
 const API_URL =
-    "http://localhost:5001/api/tasks";
-
+"https://task-management-app-oj6o.onrender.com/api/tasks"
 
 // =========================================
 // AUTHENTICATION
